@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="index.css">
+        <!-- <script type="text/javascript" src="./index.js"></script> -->
+
+</head>
+<body>
+    
+    <div class="jumbotron text-center" style="background-color: #dfff4f;">
+        <h1>Let's play some Tennis!</h1><img src="">
+        <p>Click the buttons to keep track of your tennis game score</p>  
+    </div>
+    <div class="container" style="text-align: center;">
+        <div><a id="scoreInfo"></a> </div>
+        <div><a id="winner"></a></div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Player 1:</h4>
+                <h5 id="player1Score">0</h5>
+              <br>
+                <div>
+                    <button type="button" class="btn btn-dark" onClick="onClick('p1')">Player 1 scored</button>
+                    </div> 
+
+            </div>
+            <br>
+            <div  class="col-md-6">
+                <h4>Player 2: </h4>
+                <h5 id="player2Score">0</h5>
+                <br>
+                <div>
+                    <button type="button" class="btn btn-dark" onClick="onClick('p2')">Player 2 scored</button>
+
+                    </div>
+                </div>
+        </div>
+        <br/><br/>
+            <button type="button" class="btn btn-light" onClick="resetGame()"> Reset Scores </button>
+    </div> 
+    </div>
+    
+    <script>
+    
+    let player1Score = 0;
+    let p1Count = 0;
+    let player2Score = 0;
+    let p2Count = 0;
+    function resetGame() {
+        player1Score = 0;
+        p1Count = 0;
+        player2Score = 0;
+        p2Count = 0;
+        document.getElementById("player1Score").innerHTML = 0; 
+        document.getElementById("player2Score").innerHTML = 0; 
+        document.getElementById("winner").innerHTML = '';
+    }
+    function setScreen(score, countDiff, playerString) {
+        if (score > 40) {
+            if (countDiff >= 2) {
+                document.getElementById("winner").innerHTML = playerString+ ' Won!'
+                document.getElementById("scoreInfo").innerHTML = ''
+            }
+            if (countDiff == 1) {
+                document.getElementById("scoreInfo").innerHTML = playerString+ " Advantage"
+            }
+            if (countDiff == 0) {
+                document.getElementById("scoreInfo").innerHTML = "Deuce"
+            } 
+        }
+        let displayScore = (score >= 40) ? 40 : score;
+        const id = playerString.replace(/\s/g, '').toLowerCase() + 'Score'
+        document.getElementById(id).innerHTML = displayScore; 
+    }
+    function onClick(input) {
+        if (document.getElementById("winner").innerHTML != "") {
+            resetGame();
+            return;
+        }
+        if (input == 'p1') {
+            p1Count += 1
+            if (player1Score < 30) {
+                player1Score += 15;
+            } else {
+                player1Score += 10;
+            }
+            setScreen(player1Score, p1Count - p2Count, "Player 1");
+        } else {
+            p2Count += 1
+                if (player2Score < 30) {
+                    player2Score += 15;
+            } else {
+                player2Score += 10;
+            }
+            setScreen(player2Score, p2Count - p1Count, "Player 2");
+        }
+    }
+</script>
+</body>
+</html>
